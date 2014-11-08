@@ -15,9 +15,75 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function showWelcome()
+    protected $layout = 'layouts.master';
+
+	public function index()
 	{
-		return View::make('hello');
+        if (Auth::check()) {
+            return Redirect::route('categories.index');
+        }
+
+		return View::make('home.index');
 	}
+
+    public function logout()
+    {
+        Auth::logout();
+        return Redirect::route('home.index');
+    }
+
+    public function login()
+    {
+        if (Input::has('email') && Input::has('password')) {
+
+            $rules = array(
+                'email' => 'required|email',
+                'password' => 'required|min:6'
+            );
+
+            $validator = Validator::make(Input::all(), $rules);
+
+            if ($validator->fails()) {
+
+                return Redirect::route('home.login')->withErrors($validator);
+            }
+
+            if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password'), 'confirmed' => 1), true)) {
+                return Redirect::intended('/')->with('success', 'You has been logged in.');
+            } else {
+                return View::make('home.login')->withErrors(array('error' => 'Incorrect email or password.'));
+            }
+        }
+        
+        return View::make('home.login');
+    }
+
+    public function register()
+    {
+        if (Input::has('email') && Input::has('password') && Input::has('password_confirmation')) {
+
+            $rules = array(
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:6|confirmed'
+            );
+
+            $validator = Validator::make(Input::all(), $rules);
+
+            if ($validator->fails()) {
+
+                return Redirect::route('home.register')->withErrors($validator);
+            }
+
+            $user = new User();
+            $user->email = Input::get('email');
+            $user->password = Hash::make(Input::get('password'));
+
+            $user->save();
+
+            return Redirect::intended('/')->with('success', 'Your account has been created.');
+        }
+
+        return View::make('home.register', array('error' => 'Incorrect email or password.'));   
+    }
 
 }

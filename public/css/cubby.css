@@ -1,0 +1,78 @@
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.page-header {
+    margin-top: 20px;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+p.lead {
+    margin-bottom: 0;
+}
+
+.navbar-nav>li a.btn {
+    margin-top: 8px;
+}
+
+.login-form-up {
+    border-radius: 4px  4px 0 0;
+    border-bottom: 0px;
+}
+
+.login-form-down {
+    border-radius: 0 0 4px 4px;
+}
+
+.login-form-center {
+    border-radius: 0;
+    border-width: 1px 1px 0px 1px;
+}
+
+.delete-link {
+    border: none;
+    background-color: none;
+}
+
+.logout-dropdown {
+    color: #000;
+    display: block;
+    font-size: 12px;
+    margin-top: 17px;
+}
