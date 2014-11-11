@@ -60,12 +60,10 @@ class CategoriesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-        $categories = Category::where('user_id', Auth::id())->get();
         $category = Category::find($id);
         $links = Link::where(array('category_id' => $id, 'user_id' => Auth::id()))->paginate(15);
 
 		return View::make('categories.show', array(
-            'categories' => $categories,
             'category' => $category,
             'links' => $links
         ));
@@ -110,5 +108,35 @@ class CategoriesController extends \BaseController {
         return Redirect::route('categories.index')->with('success', 'Category has been removed');
 	}
 
+    public function getByName()
+    {
+        if (Request::ajax() == false) {
+            return Response::json(array('Not AJAX Request'));
+        }
+
+        $search = Request::get('search');
+
+        if (empty($search)) {
+
+            $categories = Category::where(array('user_id' => Auth::id()))->get();
+        } else {
+
+            $categories = Category::where('name', 'LIKE', '%'.$search.'%')->where(array('user_id' => Auth::id()))->get();
+        }
+
+        $html = '';
+
+        if ((int) $categories->count() == 0) {
+
+            $html = '<div class="alert alert-danger">Results not found</div>';
+        }
+
+        foreach ($categories as $category) {
+
+            $html .= View::make('partials.category', array('category' => $category));
+        }
+
+        return Response::json(array('html' => $html));
+    }
 
 }

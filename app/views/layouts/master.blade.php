@@ -45,7 +45,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></a>
                         
                         <ul class="dropdown-menu" role="menu">
-                        @foreach($categories as $category)
+                        @foreach($_categories as $category)
                             <li class="presentation">
                                 <a href="{{ URL::route('categories.show', array('id' => $category->id)) }}">
                                     {{ $category->name }}
@@ -92,17 +92,15 @@
 
     <div class="container">
         
-        <div class="container">
-            @if(Session::has('success'))
-                <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-            @endif
+        @if(Session::has('success'))
+            <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
+        @endif
 
-            @if($errors->any())
-                @foreach ($errors->all() as $message)
-                    <div class="alert alert-danger" role="alert">{{ $message }}</div>
-                @endforeach
-            @endif
-        </div>
+        @if($errors->any())
+            @foreach ($errors->all() as $message)
+                <div class="alert alert-danger" role="alert">{{ $message }}</div>
+            @endforeach
+        @endif
         
         @yield('content')
     </div>

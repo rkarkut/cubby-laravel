@@ -32,17 +32,51 @@ jQuery(function($) {
 
     $('input[data-action="get-link-title"]').bind('change', function() {
 
-            $.ajax({
-                type: "POST",
-                url: "/links/get-site-title",
-                dataType: 'json',
-                data: { url:  $('#link_url').val()}
-            })
-            .success(function(response) {
+        $.ajax({
+            type: "POST",
+            url: "/links/get-site-title",
+            dataType: 'json',
+            data: { url:  $('#link_url').val()}
+        })
+        .success(function(response) {
 
-                $('#link_title').val(response.title);
-            });
-
+            $('#link_title').val(response.title);
         });
+
+    });
+
+    $('input[data-action="seach-category"]').bind('keyup', function() {
+
+        var search = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "/categories/get-by-name",
+            dataType: 'json',
+            data: { search:  search}
+        })
+        .success(function(response) {
+
+            $('#categories-list').html(response.html);
+        });
+
+    });
+
+    $('input[data-action="seach-link"]').bind('keyup', function() {
+
+        var search = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "/links/get-by-name",
+            dataType: 'json',
+            data: { search:  search}
+        })
+        .success(function(response) {
+
+            $('#links-list').html(response.html);
+        });
+
+    });
 
 });

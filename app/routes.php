@@ -23,5 +23,8 @@ Route::post('/login', array('as' => 'home.login', 'before' => 'csrf', 'uses' => 
 Route::post('/links/get-site-title', array('as' => 'links.get_site_title', 'uses' => 'LinksController@getSiteTitle'));
 Route::post('/links/add-to-waiting-list', array('as' => 'links.add_to_waiting_list', 'uses' => 'LinksController@addToWaitingList'));
 
+Route::post('/categories/get-by-name', array('as' => 'categories.get_by_name', 'uses' => 'CategoriesController@getByName'));
+Route::post('/links/get-by-name', array('as' => 'links.get_by_name', 'uses' => 'LinksController@getByName'));
+
 Route::resource('categories', 'CategoriesController');
 Route::resource('links', 'LinksController');

@@ -161,4 +161,35 @@ class LinksController extends \BaseController
 
         return Response::json(array('status' => 'true'));
     }
+
+    public function getByName()
+    {
+        if (Request::ajax() == false) {
+            return Response::json(array('Not AJAX Request'));
+        }
+
+        $search = Request::get('search');
+
+        if (empty($search)) {
+
+            $links = Link::where(array('user_id' => Auth::id()))->get();
+        } else {
+
+            $links = Link::where('title', 'LIKE', '%'.$search.'%')->where(array('user_id' => Auth::id()))->get();
+        }
+
+        $html = '';
+
+        if ((int) $links->count() == 0) {
+
+            $html = '<div class="alert alert-danger">Results not found</div>';
+        }
+
+        foreach ($links as $link) {
+
+            $html .= View::make('partials.link', array('link' => $link));
+        }
+
+        return Response::json(array('html' => $html));
+    }
 }

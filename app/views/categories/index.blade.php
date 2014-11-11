@@ -8,18 +8,25 @@
     <!-- Begin page content -->
     <div class="container">
         <div class="page-header">
-            <p class="lead">Categories</p>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <p class="lead">Categories</p>
+                </div>
+                <div class="col-md-3">
+                    
+                    <input type="text" class="form-control" data-action="seach-category" placeholder="Search category">
+
+                </div>
+            </div>
+        
         </div>
 
-        <div class="list-group">
+        <div id="categories-list" class="list-group">
         @foreach($categories as $category)
-            <li class="list-group-item">
 
-                <a href="{{ URL::route('categories.destroy', array('id' => $category->id)) }}" data-method='delete' data-confirm = 'Are you sure you want to delete this category?' style='float:right; margin-left: 5px'><span class='glyphicon glyphicon-trash'></span></a>
+             @include('partials.category', array('category' => $category))
 
-                <span class="badge">{{ $category->links->count() }}</span>
-                {{ link_to_route('categories.show', $category->name, array('id' => $category->id), array()) }}
-            </li>
         @endforeach
         </div>
 

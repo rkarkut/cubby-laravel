@@ -63,6 +63,19 @@ return array(
 			'prefix'    => '',
 		),
 
+        /*
+        'mysql' => array(
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'rkarkut_cubby',
+            'username'  => 'rkarkut_cubby',
+            'password'  => 'cubbybase',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ),
+        */
+
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
