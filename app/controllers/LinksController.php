@@ -38,7 +38,7 @@ class LinksController extends \BaseController
             throw new Exception('Incorrect cutegory during creating new link.');
         }
         
-        $rules = array('url' => 'required|active_url|unique:links',);
+        $rules = array('url' => 'required|unique:links',);
         
         $validator = Validator::make(Input::all(), $rules);
         
@@ -48,7 +48,7 @@ class LinksController extends \BaseController
         }
         
         $url = Input::get('url');
-        $url = substr($url, 0, 7) == 'http://' ? $url : 'http://' . $url;
+        $url = substr($url, 0, 4) == 'http' ? $url : 'http://' . $url;
         
         $link = new Link();
         $link->title = Input::get('title');
@@ -110,7 +110,7 @@ class LinksController extends \BaseController
         $link = Link::find($id);
         $link->delete();
         
-        return Redirect::route('home.index')->with('success', 'Link has been removed');
+        return Redirect::route('categories.index')->with('success', 'Link has been removed');
     }
     
     public function getSiteTitle()
@@ -169,13 +169,22 @@ class LinksController extends \BaseController
         }
 
         $search = Request::get('search');
+        $categoryId = Request::get('category_id');
 
         if (empty($search)) {
 
-            $links = Link::where(array('user_id' => Auth::id()))->get();
+            if (empty($categoryId)) {
+                $links = Link::where(array('user_id' => Auth::id()))->get();
+            } else {
+                $links = Link::where(array('user_id' => Auth::id(), 'category_id' => $categoryId))->get();
+            }                
         } else {
 
-            $links = Link::where('title', 'LIKE', '%'.$search.'%')->where(array('user_id' => Auth::id()))->get();
+            if (empty($categoryId)) {
+                $links = Link::where('title', 'LIKE', '%'.$search.'%')->where(array('user_id' => Auth::id()))->get();
+            } else {
+                $links = Link::where('title', 'LIKE', '%'.$search.'%')->where(array('user_id' => Auth::id(), 'category_id' => $categoryId))->get();
+            }
         }
 
         $html = '';

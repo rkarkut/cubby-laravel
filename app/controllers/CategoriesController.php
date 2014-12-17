@@ -2,6 +2,7 @@
 
 class CategoriesController extends \BaseController {
 
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -9,10 +10,10 @@ class CategoriesController extends \BaseController {
 	 */
 	public function index()
 	{
-        $categories = Category::where('user_id', Auth::id())->paginate(10);
+        $categories = Category::where(array('user_id' => Auth::id(), 'parent_id' => 0))->orderBy('created_at', 'desc')->paginate(20);
+
 		return View::make('categories.index', array('categories' => $categories));
 	}
-
 
 	/**
 	 * Show the form for creating a new resource.
@@ -34,6 +35,7 @@ class CategoriesController extends \BaseController {
 	{    
         $rules = array(
             'name' => 'required|unique:categories',
+            'parent_id' => 'integer'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -45,6 +47,7 @@ class CategoriesController extends \BaseController {
         $category = new Category();
         $category->name = Input::get('name');
         $category->user_id = Auth::id();
+        $category->parent_id = Input::get('parent_id');
 
         $category->Save();
 
@@ -61,10 +64,12 @@ class CategoriesController extends \BaseController {
 	public function show($id)
 	{
         $category = Category::find($id);
-        $links = Link::where(array('category_id' => $id, 'user_id' => Auth::id()))->paginate(15);
+        $categories = Category::where(array('user_id' => Auth::id(), 'parent_id' => $id))->orderBy('created_at', 'desc')->get();
+        $links = Link::where(array('category_id' => $id, 'user_id' => Auth::id()))->orderBy('created_at', 'desc')->paginate(20);
 
 		return View::make('categories.show', array(
             'category' => $category,
+            'categories' => $categories,
             'links' => $links
         ));
 	}

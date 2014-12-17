@@ -1,7 +1,9 @@
 <li class="list-group-item">
     <img src="http://www.google.com/s2/favicons?domain={{ $link->url }}" width="16" height="16" />
-    {{ link_to_route('links.show', $link->title, array('id' => $link->id), array()) }}
+    {{ link_to_route('links.show', $link->title, array('id' => $link->id), array('target' => '_blank')) }}
     
+    <span style="font-size: 11px; color: gray; padding: 0 10px">{{ $link->url }}</span>
+
     <a href="{{ URL::route('links.destroy', array('id' => $link->id)) }}" data-method='delete' data-confirm = 'Are you sure you want to delete this link?' style='float:right'><span class='glyphicon glyphicon-trash'></span></a>
 
     @if ($link->is_waiting)

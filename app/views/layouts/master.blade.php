@@ -37,7 +37,7 @@
               <a class="navbar-brand" href="/">Cubby</a>
             </div>
             <div class="collapse navbar-collapse">
-
+            @if (Auth::check())
                 <ul class="nav navbar-nav">
                     <li>{{ link_to_route('pages.waiting_list', 'Waiting list') }}</li>
 
@@ -45,44 +45,37 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></a>
                         
                         <ul class="dropdown-menu" role="menu">
-                        @foreach($_categories as $category)
+                        @foreach($_categories as $_category)
                             <li class="presentation">
-                                <a href="{{ URL::route('categories.show', array('id' => $category->id)) }}">
-                                    {{ $category->name }}
-                                    <span class="badge" style="text-align: right">{{ $category->links->count() }}</span>
+                                <a href="{{ URL::route('categories.show', array('id' => $_category->id)) }}">
+                                    @for($i = 0; $i < $_category->depth; $i++)&nbsp;&nbsp;&nbsp;@endfor{{ $_category->name }}
+                                    <span class="badge" style="text-align: right">{{ $_category->links->count() }}</span>
                                 </a>
                             </li>
                         @endforeach
                         </ul>
                     </li>
                 </ul>
+            @endif
                 <ul class="nav navbar-nav navbar-right">
+                @if (Auth::check() == false)
                     <li>
                         <div class="btn-group">
-
-                        @if (Auth::check() == false)
-                        
                             {{ link_to_route('home.login', 'Login', array(), array('class' => 'btn btn-primary btn-sm')) }}
                             {{ link_to_route('home.register', 'Register', array(), array('class' => 'btn btn-primary btn-sm')) }}
-                            
-                        @else
-
-                            <div class="dropdown">
-                                <a class="dropdown-toggle logout-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                                {{ Auth::user()->email }}
-                                <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                    <li role="presentation">
-                                        {{ link_to_route('home.logout', 'Logout', array(), array('role' => 'menuitem', 'tabindex'=>'-1')) }}
-                                    </li>
-                                </ul>
-                            </div>
-
-                        @endif
-
                         </div>
                     </li>
+                @else
+                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->email }}<span class="caret"></span></a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation">
+                                {{ link_to_route('home.logout', 'Logout', array(), array('role' => 'menuitem', 'tabindex'=>'-1')) }}
+                            </li>
+                        </ul>
+                @endif
+
                 </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -91,16 +84,6 @@
 
 
     <div class="container">
-        
-        @if(Session::has('success'))
-            <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-        @endif
-
-        @if($errors->any())
-            @foreach ($errors->all() as $message)
-                <div class="alert alert-danger" role="alert">{{ $message }}</div>
-            @endforeach
-        @endif
         
         @yield('content')
     </div>

@@ -8,10 +8,9 @@
     <!-- Begin page content -->
     <div class="container">
         
-        <div class="jumbotron">
-            <h1>Hello, world!</h1>
-            <p>...</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        <div class="jumbotron" style="text-align: center">
+            <h1>Welcome to Cubby world!</h1>
+            <p>In this place you can store all links you want. For free, fast and very convenient.</p>
         </div>
 
     </div>

@@ -8,6 +8,8 @@ html {
 body {
   /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-image: url('/imgs/1437445_94117640.jpg');
+    background-position: fixed;
 }
 .footer {
   position: absolute;
@@ -15,7 +17,7 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #f5f5f5;
+  background-color: none;
 }
 
 

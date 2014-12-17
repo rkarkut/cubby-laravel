@@ -34,7 +34,7 @@ class HomeController extends BaseController {
 
     public function login()
     {
-        if (Input::has('email') && Input::has('password')) {
+        if (Input::has('email') || Input::has('password')) {
 
             $rules = array(
                 'email' => 'required|email',
@@ -49,7 +49,7 @@ class HomeController extends BaseController {
             }
 
             if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password'), 'confirmed' => 1), true)) {
-                return Redirect::intended('/')->with('success', 'You has been logged in.');
+                return Redirect::intended('/categories')->with('success', 'You have been logged in.');
             } else {
                 return View::make('home.login')->withErrors(array('error' => 'Incorrect email or password.'));
             }
@@ -60,7 +60,7 @@ class HomeController extends BaseController {
 
     public function register()
     {
-        if (Input::has('email') && Input::has('password') && Input::has('password_confirmation')) {
+        if (Input::has('email') ||Input::has('password') || Input::has('password_confirmation')) {
 
             $rules = array(
                 'email' => 'required|email|unique:users',
