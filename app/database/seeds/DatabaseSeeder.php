@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder {
     {
         DB::table('users')->delete();
 
-        User::create(array('id'=> 1, 'email' => 'radek@rkarkut.pl', 'password' => '$2y$10$fxICI0pnkF7jFjorJXboz.pIE2ig6Jvpwq5o4ywd5GJ5tZM5xQ4va' 'confirmed'=>'1'));
+        User::create(array('id'=> 1, 'email' => 'radek@rkarkut.pl', 'password' => '$2y$10$fxICI0pnkF7jFjorJXboz.pIE2ig6Jvpwq5o4ywd5GJ5tZM5xQ4va', 'confirmed'=>'1'));
     }
 }
 
